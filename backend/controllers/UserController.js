@@ -26,7 +26,7 @@ const register = async (req, res) => {
   }
 
   // Generate password hash
-  const salt = await bcrypt.genSalt(); //gera script aleatória
+  const salt = await bcrypt.genSalt(); //gera string aleatória
   const passwordHash = await bcrypt.hash(password, salt);
 
   // Create user
@@ -77,7 +77,15 @@ const login = async (req, res) => {
   });
 };
 
+//Get  curring logged in user
+const getCurrentUser = async(req, res) => {
+  const user = req.user
+
+  res.status(200).json(user)
+}
+
 module.exports = {
   register,
   login,
+  getCurrentUser
 };
