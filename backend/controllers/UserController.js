@@ -98,9 +98,9 @@ const update = async (req, res) => {
 
   const reqUser = req.user;
 
-  const user = await User.findById(new mongoose.Types.ObjectId(reqUser._id)).select(
-    "-password"
-  );
+  const user = await User.findById(
+    new mongoose.Types.ObjectId(reqUser._id)
+  ).select("-password");
 
   if (name) {
     user.name = name;
@@ -121,13 +121,36 @@ const update = async (req, res) => {
   }
 
   try {
-    console.log('Saving user'); // Log para verificar se o usuário está sendo salvo
+    console.log("Saving user"); // Log para verificar se o usuário está sendo salvo
     await user.save();
     res.status(200).json(user);
   } catch (error) {
-    console.error('Error saving user:', error); // Log para verificar se houve um erro ao salvar o usuário
+    console.error("Error saving user:", error); // Log para verificar se houve um erro ao salvar o usuário
     res.status(500).json({ errors: ["Erro ao atualizar usuário."] });
   }
+};
+
+//Get user by id
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id).select("-password");
+
+    //check if user exists
+    if (!user) {
+      res.status(404).json({ erros: ["Usuário não encontrado"] });
+  
+      return;
+    }
+    res.status(200).json(user);
+    
+  } catch (error) {
+    res.status(404).json({ erros: ["Usuário não encontrado"] });
+
+    return;
+  }
+  
 };
 
 module.exports = {
@@ -135,4 +158,5 @@ module.exports = {
   login,
   getCurrentUser,
   update,
+  getUserById,
 };
