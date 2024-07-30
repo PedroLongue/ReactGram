@@ -139,14 +139,14 @@ const getUserById = async (req, res) => {
 
     //check if user exists
     if (!user) {
-      res.status(404).json({ erros: ["Usuário não encontrado"] });
+      res.status(404).json({ errors: ["Usuário não encontrado"] });
   
       return;
     }
     res.status(200).json(user);
     
   } catch (error) {
-    res.status(404).json({ erros: ["Usuário não encontrado"] });
+    res.status(404).json({ errors: ["Usuário não encontrado"] });
 
     return;
   }
